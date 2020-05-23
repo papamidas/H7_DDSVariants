@@ -44,3 +44,8 @@ Command | Description
 'P' | pressing this button changes to sample period input mode (reciprocal value of the sample frequency; same for both channels)
 other | pressing any other letter resumes cyclic output of the status of both DDS channels
 
+After cloning the git repository to your PC, start STM32CUBEIDE and select File->Open Projects from File System->Import Source: Directory, and select one of the project directories.
+
+In the project explorer, right click on the project and select "Build project".
+
+The first build will show a lot of warnings during compilation of drivers etc. This due to the compiler flag [-Wunused-parameter]. Just ignore these warnings.
