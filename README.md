@@ -49,3 +49,33 @@ After cloning the git repository to your PC, start STM32CUBEIDE and select File-
 In the project explorer, right click on the project and select "Build project".
 
 The first build will show a lot of warnings during compilation of drivers etc. This due to the compiler flag [-Wunused-parameter]. Just ignore these warnings.
+
+The following GPIO pins are defined as outputs and can be used for profiling with an oscilloscope:
+
+GPIO User Label | GPIO Port  | Connector Designator and Pin Number
+------------ | ------------- | -------------
+PROF0        |  PC6          | CN7, Pin 1
+PROF1        |  PB15         | CN7, Pin 3
+PROF2        |  PB13         | CN7, Pin 5
+PROF3        |  PB12         | CN7, Pin 7
+
+###### Nucleo_H7_Simple_DDS_FPU
+You may need to first choose "Nucleo_H7_Simple_DDS_FPU Debug" as debug configuration, if no debug configuration exists in the first place.
+You may also want to use SWO tracing on Port PB3.
+This must be enabled via editing the Debug Configuration->Debugger->Serial Wire Viewer->Enable and setting the core clock to 400 MHz.
+After this, the variables and expressions that can be entered in the "Live Expressions" tab are updated while the MCU is running.
+It is also possible to select other SWV windows via Window->Show View->SWV; but first the Serial Wire Viewer has to be configured: press the icon with the screw driver and hex wrench on the right side of the console toolbar.
+(search for "serial wire viewer atollic" to get more information about how to configure and use the SWV)
+
+After starting the program you should see something like the following output on your serial terminal:
+...
+f_out[0] = 1000.000001 Hz, f_sample = 10000.000000 Hz, phasereg[0] = 1718068992, phaseinc[0] = 429496730, ampl[0] = 30000, offs[0] = 32767
+  f_out[1] = 1000.000001 Hz, f_sample = 10000.000000 Hz, phasereg[1] = 3006559230, phaseinc[1] = 429496730, ampl[1] = 30000, offs[1] = 32767, CPU load = 6.221550%
+...
+
+Press 's' and increase the sample rate to 100000 samples/s (press some other key after entering the number, e.g. 'r', in order to resume outputting the DDS status). The CPU load should have risen to about 61 %.
+At 200000 samples/s the CPU load should be about 99%. Maybe the MCU even hangs; if that happens, press the Reset key on the NUCLEO board and try a slightly lower number.
+
+
+
+  
