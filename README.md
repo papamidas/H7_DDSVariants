@@ -30,16 +30,17 @@ Use a serial terminal like TERATERM or PUTTY on Windows machines and set the ser
 
 Several One-letter-commands are available:
 
-'X': pressing this button changes to channel 0 input mode
-'Y': pressing this button changes to channel 1 input mode
-'F': pressing this button changes to frequency input mode of the selected channel
-'A': pressing this button changes to amplitude input mode of the selected channel
-'O': pressing this button changes to offset input mode of the selected channel
-'Z': pressing this button synchronizes channel 2 to channel 1
-'D': pressing this button changes to phase jump input mode of channel 2 in 32-bit phase increments
-'J': pressing this button changes to phase jump input mode of channel2 in degrees
-'S': pressing this button changes to sample frequency input mode (sample frequency is the same for both channels)
-'P': pressing this button changes to sample period input mode (reciprocal value of the sample frequency; same for both channels)
-
-Pressing any other letter resumes cyclic output of the status of both DDS channels
+Command | Description
+------------ | -------------
+'X' | pressing this button changes to channel 0 input mode
+'Y' | pressing this button changes to channel 1 input mode
+'F' | pressing this button changes to frequency input mode of the selected channel
+'A' | pressing this button changes to amplitude input mode of the selected channel
+'O' | pressing this button changes to offset input mode of the selected channel
+'Z' | pressing this button synchronizes channel 2 to channel 1
+'D' | pressing this button changes to phase jump input mode of channel 2 in 32-bit phase increments
+'J' | pressing this button changes to phase jump input mode of channel2 in degrees
+'S' | pressing this button changes to sample frequency input mode (sample frequency is the same for both channels)
+'P' | pressing this button changes to sample period input mode (reciprocal value of the sample frequency; same for both channels)
+other | pressing any other letter resumes cyclic output of the status of both DDS channels
 
