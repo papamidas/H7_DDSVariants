@@ -1,9 +1,0 @@
-eclipse.preferences.version=1
-environment/project/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.655800210/CWD/delimiter=;
-environment/project/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.655800210/CWD/operation=replace
-environment/project/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.655800210/CWD/value=S\:\\TransferVerzeichnis\\STM32CubeIDE\\ws_1.3.0_DDSVariants\\Nucleo_H7_Simple_DDS_FPU\\Debug
-environment/project/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.655800210/PWD/delimiter=;
-environment/project/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.655800210/PWD/operation=replace
-environment/project/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.655800210/PWD/value=S\:\\TransferVerzeichnis\\STM32CubeIDE\\ws_1.3.0_DDSVariants\\Nucleo_H7_Simple_DDS_FPU\\Debug
-environment/project/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.655800210/append=true
-environment/project/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.655800210/appendContributed=true
