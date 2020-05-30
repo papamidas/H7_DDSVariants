@@ -19,6 +19,12 @@
 Debug/
 Release/
 
+# Ignore eclipse Folders
+
+.settings/
+.metadata/
+RemoteSystemsTempFiles/
+
 # Ignore also Results Folder (used for intermediate results)
 
 Results/
