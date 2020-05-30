@@ -453,7 +453,6 @@ int main(void)
 	    		printf("\r\n");
 	    	}
 	    }
-	    // Measuring CPU load takes a while and determines loop rate: CPULOADTICKS in Milliseconds:
 	    printf(", CPU load = %f%%\r\n",
 	    		100.0*(cpuLoadNoLoadCnt-getCPULoadCntrValue(CPULOADTICKS))/cpuLoadNoLoadCnt );
 	  }
