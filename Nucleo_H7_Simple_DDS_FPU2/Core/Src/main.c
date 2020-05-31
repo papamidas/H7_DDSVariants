@@ -34,6 +34,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "arm_math.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -75,6 +76,7 @@ uint16_t tim6ARRVal = TIM6_ARR_RESETVAL_DEFINE;
 #define DDS_PHASEBITS_DEFINE 32
 const uint8_t DDS_PHASEBITS = DDS_PHASEBITS_DEFINE;
 #define DDS_PHASERES pow(2,32)            // how many phase values can be stored in dds_phase
+float32_t dds_phaseperbit;          // =  1.0/pow(2,DDS_PHASEBITS_DEFINE) * 2.0 * M_PI;
 #define DDS_WANTEDSAMPLEPERIOD_US 100     // desired time between samples at start of program
 #define DDS_DACBITS 12                    // resolution of DAC-outputs in bits
 #define DDS_AMPLITUDE_ADCSTEPS 30000u       // waveform amplitude at start of program
@@ -144,22 +146,20 @@ uint32_t calc_phaseinc(double fout_Hz, double dacperiod_s, uint8_t phasebits);
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
  	if(htim == &htim6){
-      HAL_GPIO_WritePin(PROF0_GPIO_Port, PROF0_Pin, GPIO_PIN_SET);
 	  uint32_t dhr12ld = (uint32_t)&hdac1.Instance->DHR12LD;
 	  dds[0].phase += dds[0].phaseInc;
 	  dds[1].phase += dds[1].phaseInc;
 	  /*
 	   *  write to right aligned dual channel DAC register:
 	   */
-	  double phase0 = dds[0].phase / pow(2,32) * 2.0 * M_PI;
-	  double phase1 = dds[1].phase / pow(2,32) * 2.0 * M_PI;
 
-	  uint16_t dacval1 = ((double)dds[0].amplitude * sin(phase0)) + (double)dds[0].offset;
-	  uint16_t dacval2 = ((double)dds[1].amplitude * sin(phase1)) + (double)dds[1].offset;
+	  uint16_t dacval1 = (dds[0].amplitude * arm_sin_f32(dds[0].phase * dds_phaseperbit)) +
+			             dds[0].offset;
+	  uint16_t dacval2 = (dds[1].amplitude * arm_sin_f32(dds[1].phase * dds_phaseperbit)) +
+			             dds[1].offset;
 
 	  *(__IO uint32_t *)dhr12ld = (uint32_t) dacval1 + ((uint32_t)dacval2 << 16);
 
-	  HAL_GPIO_WritePin(PROF0_GPIO_Port, PROF0_Pin, GPIO_PIN_RESET);
 
 	  return;
   }
@@ -227,7 +227,8 @@ void update_TIM6(uint16_t new_tim6_divisor)
 
 double getCPULoadCntrValue(uint32_t ticks){
     uint32_t cpuLoadLoopCntrStartValue = uwTick;  // see SysTickInterrupt!
-    uint64_t cpuLoadDummyCntr = 0;
+    uint64_t cpuLoadDummyCntr;
+    cpuLoadDummyCntr = 0;
     while(uwTick-cpuLoadLoopCntrStartValue < ticks) {
         cpuLoadDummyCntr++;
     }
@@ -243,6 +244,9 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   /* USER CODE END 1 */
+
+  /* Enable I-Cache---------------------------------------------------------*/
+  SCB_EnableICache();
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -273,6 +277,7 @@ int main(void)
   for (int i = 0; i < sintablen; i++) {
   	  dds_sinetable[i] = sin(2.0 * M_PI * i/sintablen);
   }
+  dds_phaseperbit =  1.0/pow(2,DDS_PHASEBITS_DEFINE) * 2.0 * M_PI;
   printf("\r\nWavetable calculated\r\n");
 
   // reference measurement: number of loops before loading CPU with TIM6 interrupts
