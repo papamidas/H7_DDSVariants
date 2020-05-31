@@ -76,6 +76,28 @@ f_out[0] = 1000.000001 Hz, f_sample = 10000.000000 Hz, phasereg[0] = 1718068992,
 Press 's' and increase the sample rate to 100000 samples/s (press some other key after entering the number, e.g. 'r', in order to resume outputting the DDS status). The CPU load should have risen to about 61 %.
 At 200000 samples/s the CPU load should be about 99%. Maybe the MCU even hangs; if that happens, press the Reset key on the NUCLEO board and try a slightly lower number.
 
+###### Nucleo_H7_Simple_DDS_FPU2
 
+The following changes were made successively:
+
+- in the project options: "Tool settings->MCU GCC compiler->Optimization" was changed for none to -Ofast
+  This improved the CPU load from 6.22% to 4.6%
+- the instruction cache has been enabled via STM32Cube System Core->CORTEX_M7->CPU ICache -> enable
+  This improved the CPU load from 4.6% to 3.38%
+- The CMSIS DSP library was installed
+  (this was not as easy as I thought->the installation via STM32Cube is incomplete and error prone)
+  arm_sin_f32() hase been used instead of the standard sin() function in the TIM6 ISR
+  This improved the CPU load from 3.38% to 2.118%
+- float32_t has been used as a more efficient data type in the TIM6 ISR
+  This gave another improvement from 2.118% to 2.057%
+- Two fp divisions have been substituted with multiplications in the TIM6 ISR
+  -> another small improvement from 2.057% to 2.054%
+    
+
+
+...
+f_out[0] = 1000.000001 Hz, f_sample = 10000.000000 Hz, phasereg[0] = 1720158264, phaseinc[0] = 429496730, ampl[0] = 30000, offs[0] = 32767
+  f_out[1] = 1000.000001 Hz, f_sample = 10000.000000 Hz, phasereg[1] = 3008648502, phaseinc[1] = 429496730, ampl[1] = 30000, offs[1] = 32767, CPU load = 2.054628%
+...
 
   
